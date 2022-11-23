@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_translation_app/text_field_item_view.dart';
+import 'package:mobile_translation_app/views/text_field_item_view.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -49,7 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressedSuffixButton: _resetTextField,
                 textEditingController: _disableEditingController,
                 language: _disableLanguage,
-                enable: false,
               ),
               IconButton(
                 onPressed: _onPressedSwapTextFieldButton,
@@ -67,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressedSuffixButton: _resetTextField,
                 textEditingController: _enableEditingController,
                 language: _enableLanguage,
-                enable: true,
               ),
             ],
           ),
