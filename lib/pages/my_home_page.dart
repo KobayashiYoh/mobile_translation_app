@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_translation_app/views/text_field_item_view.dart';
+import 'package:translator/translator.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -26,6 +27,32 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
+  void _translate(String inputText, bool enable) async {
+    final String from;
+    final String to;
+    if (enable) {
+      from = _enableLanguage.label;
+      to = _disableLanguage.label;
+    } else {
+      from = _disableLanguage.label;
+      to = _enableLanguage.label;
+    }
+    print('from: $from');
+    print('to: $to');
+    final translator = GoogleTranslator();
+    final translation = await translator.translate(
+      inputText,
+      from: from,
+      to: to,
+    );
+    if (enable) {
+      _disableEditingController.text = translation.text;
+    } else {
+      _enableEditingController.text = translation.text;
+    }
+    setState(() {});
+  }
+
   void _resetTextField() {
     setState(() {
       _enableEditingController = TextEditingController();
@@ -42,6 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: [
               TextFieldItemView(
+                onChanged: (value) => _translate(value, false),
                 onPressedSuffixButton: _resetTextField,
                 textEditingController: _disableEditingController,
                 language: _disableLanguage,
@@ -59,6 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               TextFieldItemView(
+                onChanged: (value) => _translate(value, true),
                 onPressedSuffixButton: _resetTextField,
                 textEditingController: _enableEditingController,
                 language: _enableLanguage,
