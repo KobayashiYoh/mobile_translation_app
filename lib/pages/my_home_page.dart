@@ -15,7 +15,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            const TextFieldItemView(),
+            const TextFieldItemView(language: Language.english),
             IconButton(
               onPressed: () {},
               icon: const RotatedBox(
@@ -28,7 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            const TextFieldItemView(),
+            const TextFieldItemView(language: Language.japanese),
           ],
         ),
       ),
