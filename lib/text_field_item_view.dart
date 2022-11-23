@@ -28,10 +28,12 @@ extension LanguageExtension on Language {
 class TextFieldItemView extends StatelessWidget {
   const TextFieldItemView({
     Key? key,
+    required this.onPressedSuffixButton,
     required this.textEditingController,
     required this.language,
     required this.enable,
   }) : super(key: key);
+  final void Function()? onPressedSuffixButton;
   final TextEditingController textEditingController;
   final Language language;
   final bool enable;
@@ -58,7 +60,17 @@ class TextFieldItemView extends StatelessWidget {
                 child: TextField(
                   controller: textEditingController,
                   keyboardType: language.textInputType,
+                  onChanged: (value) {
+                    // TODO: 翻訳機能の実装
+                  },
                   enabled: enable,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: onPressedSuffixButton,
+                      iconSize: 20.0,
+                      icon: const Icon(Icons.close),
+                    ),
+                  ),
                 ),
               ),
               IconButton(

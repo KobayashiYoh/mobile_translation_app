@@ -30,6 +30,13 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
+  void _resetTextField() {
+    setState(() {
+      _enableEditingController = TextEditingController();
+      _disableEditingController = TextEditingController();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             TextFieldItemView(
+              onPressedSuffixButton: _resetTextField,
               textEditingController: _disableEditingController,
               language: _disableLanguage,
               enable: false,
@@ -54,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             TextFieldItemView(
+              onPressedSuffixButton: _resetTextField,
               textEditingController: _enableEditingController,
               language: _enableLanguage,
               enable: true,
