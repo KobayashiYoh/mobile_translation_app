@@ -15,14 +15,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Language _disableLanguage = Language.japanese;
 
   void _onPressedSwapTextFieldButton() {
-    final String enableEditingControllerText = _enableEditingController.text;
-    final String disableEditingControllerText = _disableEditingController.text;
-    _enableEditingController = TextEditingController(
-      text: disableEditingControllerText,
-    );
-    _disableEditingController = TextEditingController(
-      text: enableEditingControllerText,
-    );
+    final String enableText = _enableEditingController.text;
+    final String disableText = _disableEditingController.text;
+    _enableEditingController = TextEditingController(text: disableText);
+    _disableEditingController = TextEditingController(text: enableText);
     final enableLanguage = _enableLanguage;
     final disableLanguage = _disableLanguage;
     _enableLanguage = disableLanguage;
