@@ -39,35 +39,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            TextFieldItemView(
-              onPressedSuffixButton: _resetTextField,
-              textEditingController: _disableEditingController,
-              language: _disableLanguage,
-              enable: false,
-            ),
-            IconButton(
-              onPressed: _onPressedSwapTextFieldButton,
-              icon: const RotatedBox(
-                quarterTurns: 1,
-                child: SizedBox(
-                  height: 32.0,
-                  child: Icon(
-                    Icons.compare_arrows_outlined,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              TextFieldItemView(
+                onPressedSuffixButton: _resetTextField,
+                textEditingController: _disableEditingController,
+                language: _disableLanguage,
+                enable: false,
+              ),
+              IconButton(
+                onPressed: _onPressedSwapTextFieldButton,
+                icon: const RotatedBox(
+                  quarterTurns: 1,
+                  child: SizedBox(
+                    height: 32.0,
+                    child: Icon(
+                      Icons.compare_arrows_outlined,
+                    ),
                   ),
                 ),
               ),
-            ),
-            TextFieldItemView(
-              onPressedSuffixButton: _resetTextField,
-              textEditingController: _enableEditingController,
-              language: _enableLanguage,
-              enable: true,
-            ),
-          ],
+              TextFieldItemView(
+                onPressedSuffixButton: _resetTextField,
+                textEditingController: _enableEditingController,
+                language: _enableLanguage,
+                enable: true,
+              ),
+            ],
+          ),
         ),
       ),
     );
