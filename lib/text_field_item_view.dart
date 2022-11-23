@@ -17,8 +17,15 @@ extension LanguageExtension on Language {
 }
 
 class TextFieldItemView extends StatelessWidget {
-  const TextFieldItemView({Key? key, required this.language}) : super(key: key);
+  const TextFieldItemView({
+    Key? key,
+    required this.textEditingController,
+    required this.language,
+    required this.enable,
+  }) : super(key: key);
+  final TextEditingController textEditingController;
   final Language language;
+  final bool enable;
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +40,16 @@ class TextFieldItemView extends StatelessWidget {
         children: [
           Container(
             alignment: Alignment.centerLeft,
+            height: 20.0,
             child: Text(language.languageLabel),
           ),
           Row(
             children: [
-              const Expanded(
-                child: TextField(),
+              Expanded(
+                child: TextField(
+                  controller: textEditingController,
+                  enabled: enable,
+                ),
               ),
               IconButton(
                 onPressed: () {
