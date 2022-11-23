@@ -14,6 +14,15 @@ extension LanguageExtension on Language {
         return '日本語';
     }
   }
+
+  TextInputType get textInputType {
+    switch (this) {
+      case Language.japanese:
+        return TextInputType.text;
+      default:
+        return TextInputType.emailAddress;
+    }
+  }
 }
 
 class TextFieldItemView extends StatelessWidget {
@@ -48,6 +57,7 @@ class TextFieldItemView extends StatelessWidget {
               Expanded(
                 child: TextField(
                   controller: textEditingController,
+                  keyboardType: language.textInputType,
                   enabled: enable,
                 ),
               ),
