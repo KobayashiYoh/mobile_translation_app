@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_translation_app/text_field_item_view.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -14,34 +15,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              margin: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 4.0,
-                ),
-              ),
-              child: Row(
-                children: [
-                  const Expanded(
-                    child: TextField(),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.headphones_outlined,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.mic_none,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            const TextFieldItemView(),
             IconButton(
               onPressed: () {},
               icon: const RotatedBox(
@@ -54,34 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              margin: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 4.0,
-                ),
-              ),
-              child: Row(
-                children: [
-                  const Expanded(
-                    child: TextField(),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.headphones_outlined,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.mic_none,
-                    ),
-                  ),
-                ],
-              ),
-            )
+            const TextFieldItemView(),
           ],
         ),
       ),
