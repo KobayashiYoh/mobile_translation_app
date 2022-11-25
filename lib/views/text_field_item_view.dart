@@ -7,12 +7,21 @@ enum Language {
 }
 
 extension LanguageExtension on Language {
-  String get languageLabel {
+  String get text {
     switch (this) {
       case Language.english:
         return 'English';
       case Language.japanese:
         return '日本語';
+    }
+  }
+
+  String get label {
+    switch (this) {
+      case Language.english:
+        return 'en';
+      case Language.japanese:
+        return 'ja';
     }
   }
 
@@ -29,10 +38,12 @@ extension LanguageExtension on Language {
 class TextFieldItemView extends StatelessWidget {
   const TextFieldItemView({
     Key? key,
+    required this.onChanged,
     required this.onPressedSuffixButton,
     required this.textEditingController,
     required this.language,
   }) : super(key: key);
+  final void Function(String)? onChanged;
   final void Function()? onPressedSuffixButton;
   final TextEditingController textEditingController;
   final Language language;
@@ -59,7 +70,7 @@ class TextFieldItemView extends StatelessWidget {
           Container(
             alignment: Alignment.centerLeft,
             height: 20.0,
-            child: Text(language.languageLabel),
+            child: Text(language.text),
           ),
           Row(
             children: [
@@ -67,9 +78,7 @@ class TextFieldItemView extends StatelessWidget {
                 child: TextField(
                   controller: textEditingController,
                   keyboardType: language.textInputType,
-                  onChanged: (value) {
-                    // TODO: 翻訳機能の実装
-                  },
+                  onChanged: onChanged,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       onPressed: onPressedSuffixButton,
