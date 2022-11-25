@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 enum Language {
   english,
@@ -54,6 +55,7 @@ class TextFieldItemView extends StatelessWidget {
         text: textEditingController.text,
       ),
     );
+    Fluttertoast.showToast(msg: 'コピーしました');
   }
 
   @override
