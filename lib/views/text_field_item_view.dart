@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 enum Language {
   english,
@@ -36,6 +37,14 @@ class TextFieldItemView extends StatelessWidget {
   final TextEditingController textEditingController;
   final Language language;
 
+  void _copyClipBoard() {
+    Clipboard.setData(
+      ClipboardData(
+        text: textEditingController.text,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,19 +80,9 @@ class TextFieldItemView extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {
-                  // TODO: 音声読み上げ機能を実装
-                },
+                onPressed: _copyClipBoard,
                 icon: const Icon(
-                  Icons.headphones_outlined,
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  // TODO: 音声入力機能を実装
-                },
-                icon: const Icon(
-                  Icons.mic_none,
+                  Icons.copy_outlined,
                 ),
               ),
             ],
