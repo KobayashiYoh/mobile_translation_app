@@ -6,13 +6,13 @@ import 'package:mobile_translation_app/models/language.dart';
 class TextFieldItemView extends StatelessWidget {
   const TextFieldItemView({
     Key? key,
-    required this.onChanged,
+    required this.translate,
     required this.onPressedSuffixButton,
     required this.onPressedPlayButton,
     required this.textEditingController,
     required this.language,
   }) : super(key: key);
-  final void Function(String)? onChanged;
+  final void Function(String)? translate;
   final void Function()? onPressedSuffixButton;
   final void Function()? onPressedPlayButton;
   final TextEditingController textEditingController;
@@ -49,7 +49,8 @@ class TextFieldItemView extends StatelessWidget {
                 child: TextField(
                   controller: textEditingController,
                   keyboardType: language.textInputType,
-                  onChanged: onChanged,
+                  onChanged: translate,
+                  onSubmitted: translate,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       onPressed: onPressedSuffixButton,

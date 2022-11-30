@@ -75,10 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: [
               TextFieldItemView(
-                onChanged: (value) => _translate(
-                  value,
-                  FieldPosition.top,
-                ),
+                translate: (value) => _translate(value, FieldPosition.top),
                 onPressedSuffixButton: _resetTextField,
                 onPressedPlayButton: () => _speak(FieldPosition.top),
                 textEditingController: _topController,
@@ -97,10 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               TextFieldItemView(
-                onChanged: (value) => _translate(
-                  value,
-                  FieldPosition.bottom,
-                ),
+                translate: (value) => _translate(value, FieldPosition.bottom),
                 onPressedSuffixButton: _resetTextField,
                 onPressedPlayButton: () => _speak(FieldPosition.bottom),
                 textEditingController: _bottomController,
