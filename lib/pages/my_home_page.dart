@@ -41,10 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
     final translator = GoogleTranslator();
-    final String from =
-        position.isTop ? _bottomLanguage.label : _topLanguage.label;
-    final String to =
-        position.isTop ? _topLanguage.label : _bottomLanguage.label;
+    final String from = position.isTop
+        ? _bottomLanguage.translatorLabel
+        : _topLanguage.translatorLabel;
+    final String to = position.isTop
+        ? _topLanguage.translatorLabel
+        : _bottomLanguage.translatorLabel;
     final translation = await translator.translate(
       inputText,
       from: from,

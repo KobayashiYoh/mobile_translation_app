@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 enum Language {
@@ -17,12 +18,21 @@ extension LanguageExtension on Language {
     }
   }
 
-  String get label {
+  String get translatorLabel {
     switch (this) {
       case Language.english:
         return 'en';
       case Language.japanese:
         return 'ja';
+    }
+  }
+
+  String get speakingLabel {
+    switch (this) {
+      case Language.english:
+        return 'en-US';
+      case Language.japanese:
+        return 'ja-JP';
     }
   }
 
@@ -58,6 +68,16 @@ class TextFieldItemView extends StatelessWidget {
       ),
     );
     Fluttertoast.showToast(msg: 'コピーしました');
+  }
+
+  void _speak() async {
+    FlutterTts flutterTts = FlutterTts();
+    await flutterTts.setLanguage(language.speakingLabel);
+
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.setVolume(1.0);
+    await flutterTts.setPitch(1.0);
+    await flutterTts.speak(textEditingController.text);
   }
 
   @override
@@ -99,7 +119,7 @@ class TextFieldItemView extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: onPressedPlayButton,
+                onPressed: () async => _speak(),
                 icon: const Icon(
                   Icons.play_circle_outline,
                 ),
