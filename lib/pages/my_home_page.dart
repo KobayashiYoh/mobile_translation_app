@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:mobile_translation_app/models/field_position.dart';
 import 'package:mobile_translation_app/models/language.dart';
 import 'package:mobile_translation_app/views/text_field_item_view.dart';
 import 'package:translator/translator.dart';
-
-enum FieldPosition {
-  top,
-  bottom,
-}
-
-extension TextFieldPositionExtension on FieldPosition {
-  bool get isTop => this == FieldPosition.top;
-}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
