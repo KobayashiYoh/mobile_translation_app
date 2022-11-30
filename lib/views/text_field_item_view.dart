@@ -1,51 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-enum Language {
-  english,
-  japanese,
-}
-
-extension LanguageExtension on Language {
-  String get text {
-    switch (this) {
-      case Language.english:
-        return 'English';
-      case Language.japanese:
-        return '日本語';
-    }
-  }
-
-  String get label {
-    switch (this) {
-      case Language.english:
-        return 'en';
-      case Language.japanese:
-        return 'ja';
-    }
-  }
-
-  TextInputType get textInputType {
-    switch (this) {
-      case Language.japanese:
-        return TextInputType.text;
-      default:
-        return TextInputType.emailAddress;
-    }
-  }
-}
+import 'package:mobile_translation_app/models/language.dart';
 
 class TextFieldItemView extends StatelessWidget {
   const TextFieldItemView({
     Key? key,
     required this.onChanged,
     required this.onPressedSuffixButton,
+    required this.onPressedPlayButton,
     required this.textEditingController,
     required this.language,
   }) : super(key: key);
   final void Function(String)? onChanged;
   final void Function()? onPressedSuffixButton;
+  final void Function()? onPressedPlayButton;
   final TextEditingController textEditingController;
   final Language language;
 
@@ -94,6 +63,12 @@ class TextFieldItemView extends StatelessWidget {
                 onPressed: _copyClipBoard,
                 icon: const Icon(
                   Icons.copy_outlined,
+                ),
+              ),
+              IconButton(
+                onPressed: onPressedPlayButton,
+                icon: const Icon(
+                  Icons.play_circle_outline,
                 ),
               ),
             ],
