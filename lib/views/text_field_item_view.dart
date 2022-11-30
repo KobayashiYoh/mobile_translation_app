@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_translation_app/models/language.dart';
 
@@ -26,16 +25,6 @@ class TextFieldItemView extends StatelessWidget {
       ),
     );
     Fluttertoast.showToast(msg: 'コピーしました');
-  }
-
-  void _speak() async {
-    FlutterTts flutterTts = FlutterTts();
-    await flutterTts.setLanguage(language.speakingLabel);
-
-    await flutterTts.setSpeechRate(0.5);
-    await flutterTts.setVolume(1.0);
-    await flutterTts.setPitch(1.0);
-    await flutterTts.speak(textEditingController.text);
   }
 
   @override
@@ -77,7 +66,7 @@ class TextFieldItemView extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () async => _speak(),
+                onPressed: onPressedPlayButton,
                 icon: const Icon(
                   Icons.play_circle_outline,
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mobile_translation_app/models/language.dart';
 import 'package:mobile_translation_app/views/text_field_item_view.dart';
 import 'package:translator/translator.dart';
@@ -46,8 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ? _bottomLanguage.translatorLabel
         : _topLanguage.translatorLabel;
     final String to = position.isTop
-        ? _topLanguage.translatorLabel
-        : _bottomLanguage.translatorLabel;
+        ? _bottomLanguage.translatorLabel
+        : _topLanguage.translatorLabel;
     final translation = await translator.translate(
       inputText,
       from: from,
@@ -68,6 +69,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _speak(TextFieldPosition position) async {
+    FlutterTts flutterTts = FlutterTts();
+    final language =
+        position == TextFieldPosition.top ? _topLanguage : _bottomLanguage;
+    final controller =
+        position == TextFieldPosition.top ? _topController : _bottomController;
+    await flutterTts.setLanguage(language.speakingLabel);
+    await flutterTts.setSpeechRate(0.5);
+    await flutterTts.speak(controller.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -82,9 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   TextFieldPosition.top,
                 ),
                 onPressedSuffixButton: _resetTextField,
-                onPressedPlayButton: () {},
-                textEditingController: _bottomController,
-                language: _bottomLanguage,
+                onPressedPlayButton: () => _speak(TextFieldPosition.top),
+                textEditingController: _topController,
+                language: _topLanguage,
               ),
               IconButton(
                 onPressed: _onPressedSwapTextFieldButton,
@@ -104,9 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   TextFieldPosition.bottom,
                 ),
                 onPressedSuffixButton: _resetTextField,
-                onPressedPlayButton: () {},
-                textEditingController: _topController,
-                language: _topLanguage,
+                onPressedPlayButton: () => _speak(TextFieldPosition.bottom),
+                textEditingController: _bottomController,
+                language: _bottomLanguage,
               ),
             ],
           ),
