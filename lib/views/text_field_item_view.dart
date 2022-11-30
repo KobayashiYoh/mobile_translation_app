@@ -19,6 +19,9 @@ class TextFieldItemView extends StatelessWidget {
   final Language language;
 
   void _copyClipBoard() {
+    if (textEditingController.text.isEmpty) {
+      return;
+    }
     Clipboard.setData(
       ClipboardData(
         text: textEditingController.text,

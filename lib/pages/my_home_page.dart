@@ -58,9 +58,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _speak(FieldPosition position) async {
-    FlutterTts flutterTts = FlutterTts();
     final language = position.isTop ? _topLanguage : _bottomLanguage;
     final controller = position.isTop ? _topController : _bottomController;
+    if (controller.text.isEmpty) {
+      return;
+    }
+    FlutterTts flutterTts = FlutterTts();
     await flutterTts.setLanguage(language.speakingLabel);
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(controller.text);
