@@ -71,9 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
-          child: Column(
+          child: ListView(
             children: [
+              const SizedBox(height: 16.0),
               TextFieldItemView(
                 translate: (value) => _translate(value, FieldPosition.top),
                 onPressedSuffixButton: _resetTextField,
@@ -81,14 +83,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 textEditingController: _topController,
                 language: _topLanguage,
               ),
-              IconButton(
-                onPressed: _onPressedSwapTextFieldButton,
-                icon: const RotatedBox(
-                  quarterTurns: 1,
-                  child: SizedBox(
-                    height: 32.0,
-                    child: Icon(
-                      Icons.compare_arrows_outlined,
+              GestureDetector(
+                onTap: _onPressedSwapTextFieldButton,
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: const RotatedBox(
+                    quarterTurns: 1,
+                    child: SizedBox(
+                      height: 32.0,
+                      child: Icon(
+                        Icons.compare_arrows_outlined,
+                      ),
                     ),
                   ),
                 ),

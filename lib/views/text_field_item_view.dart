@@ -49,6 +49,8 @@ class TextFieldItemView extends StatelessWidget {
                 child: TextField(
                   controller: textEditingController,
                   keyboardType: language.textInputType,
+                  minLines: 1,
+                  maxLines: 10,
                   onChanged: translate,
                   onSubmitted: translate,
                   decoration: InputDecoration(
