@@ -4,13 +4,13 @@ import 'package:mobile_translation_app/models/language.dart';
 import 'package:mobile_translation_app/views/text_field_item_view.dart';
 import 'package:translator/translator.dart';
 
-enum TextFieldPosition {
+enum FieldPosition {
   top,
   bottom,
 }
 
-extension TextFieldPositionExtension on TextFieldPosition {
-  bool get isTop => this == TextFieldPosition.top;
+extension TextFieldPositionExtension on FieldPosition {
+  bool get isTop => this == FieldPosition.top;
 }
 
 class MyHomePage extends StatefulWidget {
@@ -38,26 +38,22 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
-  void _translate(String inputText, TextFieldPosition position) async {
+  void _translate(String inputText, FieldPosition position) async {
     if (inputText.isEmpty) {
       return;
     }
     final translator = GoogleTranslator();
-    final String from = position.isTop
-        ? _bottomLanguage.translatorLabel
-        : _topLanguage.translatorLabel;
     final String to = position.isTop
         ? _bottomLanguage.translatorLabel
         : _topLanguage.translatorLabel;
     final translation = await translator.translate(
       inputText,
-      from: from,
       to: to,
     );
     if (position.isTop) {
-      _topController.text = translation.text;
-    } else {
       _bottomController.text = translation.text;
+    } else {
+      _topController.text = translation.text;
     }
     setState(() {});
   }
@@ -69,12 +65,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _speak(TextFieldPosition position) async {
+  void _speak(FieldPosition position) async {
     FlutterTts flutterTts = FlutterTts();
-    final language =
-        position == TextFieldPosition.top ? _topLanguage : _bottomLanguage;
-    final controller =
-        position == TextFieldPosition.top ? _topController : _bottomController;
+    final language = position.isTop ? _topLanguage : _bottomLanguage;
+    final controller = position.isTop ? _topController : _bottomController;
     await flutterTts.setLanguage(language.speakingLabel);
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(controller.text);
@@ -91,10 +85,10 @@ class _MyHomePageState extends State<MyHomePage> {
               TextFieldItemView(
                 onChanged: (value) => _translate(
                   value,
-                  TextFieldPosition.top,
+                  FieldPosition.top,
                 ),
                 onPressedSuffixButton: _resetTextField,
-                onPressedPlayButton: () => _speak(TextFieldPosition.top),
+                onPressedPlayButton: () => _speak(FieldPosition.top),
                 textEditingController: _topController,
                 language: _topLanguage,
               ),
@@ -113,10 +107,10 @@ class _MyHomePageState extends State<MyHomePage> {
               TextFieldItemView(
                 onChanged: (value) => _translate(
                   value,
-                  TextFieldPosition.bottom,
+                  FieldPosition.bottom,
                 ),
                 onPressedSuffixButton: _resetTextField,
-                onPressedPlayButton: () => _speak(TextFieldPosition.bottom),
+                onPressedPlayButton: () => _speak(FieldPosition.bottom),
                 textEditingController: _bottomController,
                 language: _bottomLanguage,
               ),
