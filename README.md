@@ -1,16 +1,30 @@
-# mobile_translation_app
+# 翻訳アプリ
 
-A new Flutter project.
+![gif](https://user-images.githubusercontent.com/82624334/205308674-7927682a-332a-4a1e-8312-3eb484debe8d.gif)
 
-## Getting Started
+## 主な機能
+ - 翻訳（日<->英）
+ - 音声読み上げ
+ - テキストをクリップボードにコピー
 
-This project is a starting point for a Flutter application.
+## 使用したフレームワーク
+* Flutter
 
-A few resources to get you started if this is your first Flutter project:
+## 使用した主なpackage（ライブラリ）
+* translator
+  * https://pub.dev/packages/translator
+  * 翻訳を行う
+* fluttertoast
+  * https://pub.dev/packages/fluttertoast
+  * トーストを表示
+* flutter_tts
+  * https://pub.dev/packages/flutter_tts
+  * テキスト読み上げ
+* flutter_launcher_icons
+  * https://pub.dev/packages/flutter_launcher_icons
+  * アプリアイコン変更
+ 
+ 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
