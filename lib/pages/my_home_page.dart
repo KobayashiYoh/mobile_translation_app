@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:mobile_translation_app/models/field_position.dart';
 import 'package:mobile_translation_app/models/language.dart';
 import 'package:mobile_translation_app/views/text_field_item_view.dart';
 import 'package:translator/translator.dart';
-
-enum FieldPosition {
-  top,
-  bottom,
-}
-
-extension TextFieldPositionExtension on FieldPosition {
-  bool get isTop => this == FieldPosition.top;
-}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -66,9 +58,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _speak(FieldPosition position) async {
-    FlutterTts flutterTts = FlutterTts();
     final language = position.isTop ? _topLanguage : _bottomLanguage;
     final controller = position.isTop ? _topController : _bottomController;
+    if (controller.text.isEmpty) {
+      return;
+    }
+    FlutterTts flutterTts = FlutterTts();
     await flutterTts.setLanguage(language.speakingLabel);
     await flutterTts.setSpeechRate(0.5);
     await flutterTts.speak(controller.text);
@@ -79,36 +74,38 @@ class _MyHomePageState extends State<MyHomePage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
-          child: Column(
+          child: ListView(
             children: [
+              const SizedBox(height: 16.0),
               TextFieldItemView(
-                onChanged: (value) => _translate(
-                  value,
-                  FieldPosition.top,
-                ),
+                translate: (value) => _translate(value, FieldPosition.top),
                 onPressedSuffixButton: _resetTextField,
                 onPressedPlayButton: () => _speak(FieldPosition.top),
                 textEditingController: _topController,
                 language: _topLanguage,
               ),
-              IconButton(
-                onPressed: _onPressedSwapTextFieldButton,
-                icon: const RotatedBox(
-                  quarterTurns: 1,
-                  child: SizedBox(
-                    height: 32.0,
-                    child: Icon(
-                      Icons.compare_arrows_outlined,
+              GestureDetector(
+                onTap: _onPressedSwapTextFieldButton,
+                child: Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: const RotatedBox(
+                    quarterTurns: 1,
+                    child: SizedBox(
+                      height: 32.0,
+                      child: Icon(
+                        Icons.compare_arrows_outlined,
+                      ),
                     ),
                   ),
                 ),
               ),
               TextFieldItemView(
-                onChanged: (value) => _translate(
-                  value,
-                  FieldPosition.bottom,
-                ),
+                translate: (value) => _translate(value, FieldPosition.bottom),
                 onPressedSuffixButton: _resetTextField,
                 onPressedPlayButton: () => _speak(FieldPosition.bottom),
                 textEditingController: _bottomController,

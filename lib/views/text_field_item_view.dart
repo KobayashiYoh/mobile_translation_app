@@ -6,19 +6,22 @@ import 'package:mobile_translation_app/models/language.dart';
 class TextFieldItemView extends StatelessWidget {
   const TextFieldItemView({
     Key? key,
-    required this.onChanged,
+    required this.translate,
     required this.onPressedSuffixButton,
     required this.onPressedPlayButton,
     required this.textEditingController,
     required this.language,
   }) : super(key: key);
-  final void Function(String)? onChanged;
+  final void Function(String)? translate;
   final void Function()? onPressedSuffixButton;
   final void Function()? onPressedPlayButton;
   final TextEditingController textEditingController;
   final Language language;
 
   void _copyClipBoard() {
+    if (textEditingController.text.isEmpty) {
+      return;
+    }
     Clipboard.setData(
       ClipboardData(
         text: textEditingController.text,
@@ -49,7 +52,10 @@ class TextFieldItemView extends StatelessWidget {
                 child: TextField(
                   controller: textEditingController,
                   keyboardType: language.textInputType,
-                  onChanged: onChanged,
+                  minLines: 1,
+                  maxLines: 10,
+                  onChanged: translate,
+                  onSubmitted: translate,
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       onPressed: onPressedSuffixButton,
