@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:mobile_translation_app/models/field_position.dart';
 import 'package:mobile_translation_app/models/language.dart';
 import 'package:mobile_translation_app/views/text_field_item_view.dart';
 import 'package:translator/translator.dart';
@@ -30,19 +29,19 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
-  void _translate(String inputText, FieldPosition position) async {
+  void _translate(String inputText, {required bool isTopField}) async {
     if (inputText.isEmpty) {
       return;
     }
     final translator = GoogleTranslator();
-    final String to = position.isTop
+    final String to = isTopField
         ? _bottomLanguage.translatorLabel
         : _topLanguage.translatorLabel;
     final translation = await translator.translate(
       inputText,
       to: to,
     );
-    if (position.isTop) {
+    if (isTopField) {
       _bottomController.text = translation.text;
     } else {
       _topController.text = translation.text;
@@ -57,9 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _speak(FieldPosition position) async {
-    final language = position.isTop ? _topLanguage : _bottomLanguage;
-    final controller = position.isTop ? _topController : _bottomController;
+  void _speak({required bool isTopField}) async {
+    final language = isTopField ? _topLanguage : _bottomLanguage;
+    final controller = isTopField ? _topController : _bottomController;
     if (controller.text.isEmpty) {
       return;
     }
@@ -80,9 +79,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               const SizedBox(height: 16.0),
               TextFieldItemView(
-                translate: (value) => _translate(value, FieldPosition.top),
+                translate: (value) => _translate(value, isTopField: true),
                 onPressedSuffixButton: _resetTextField,
-                onPressedPlayButton: () => _speak(FieldPosition.top),
+                onPressedPlayButton: () => _speak(isTopField: true),
                 textEditingController: _topController,
                 language: _topLanguage,
               ),
@@ -105,9 +104,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               TextFieldItemView(
-                translate: (value) => _translate(value, FieldPosition.bottom),
+                translate: (value) => _translate(value, isTopField: false),
                 onPressedSuffixButton: _resetTextField,
-                onPressedPlayButton: () => _speak(FieldPosition.bottom),
+                onPressedPlayButton: () => _speak(isTopField: false),
                 textEditingController: _bottomController,
                 language: _bottomLanguage,
               ),
