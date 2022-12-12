@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_translation_app/models/language.dart';
 import 'package:mobile_translation_app/views/text_field_item_view.dart';
 import 'package:translator/translator.dart';
@@ -56,6 +58,20 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _copyClipBoard(TextEditingController controller) {
+    if (controller.text.isEmpty) {
+      return;
+    }
+    // textをクリップボードにコピー
+    Clipboard.setData(
+      ClipboardData(
+        text: controller.text,
+      ),
+    );
+    // トーストを表示
+    Fluttertoast.showToast(msg: 'コピーしました');
+  }
+
   void _speak({required bool isTopField}) async {
     final language = isTopField ? _topLanguage : _bottomLanguage;
     final controller = isTopField ? _topController : _bottomController;
@@ -81,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
               TextFieldItemView(
                 translate: (value) => _translate(value, isTopField: true),
                 onPressedSuffixButton: _resetTextField,
+                onPressedCopyButton: () => _copyClipBoard(_topController),
                 onPressedPlayButton: () => _speak(isTopField: true),
                 textEditingController: _topController,
                 language: _topLanguage,
@@ -106,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
               TextFieldItemView(
                 translate: (value) => _translate(value, isTopField: false),
                 onPressedSuffixButton: _resetTextField,
+                onPressedCopyButton: () => _copyClipBoard(_bottomController),
                 onPressedPlayButton: () => _speak(isTopField: false),
                 textEditingController: _bottomController,
                 language: _bottomLanguage,
