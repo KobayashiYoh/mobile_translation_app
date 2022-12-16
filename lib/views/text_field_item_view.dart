@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_translation_app/models/language.dart';
+import 'package:mobile_translation_app/pages/my_home_page.dart';
 
 class TextFieldItemView extends StatelessWidget {
   const TextFieldItemView({
@@ -32,7 +32,7 @@ class TextFieldItemView extends StatelessWidget {
           Container(
             alignment: Alignment.centerLeft,
             height: 20.0,
-            child: Text(language.text),
+            child: Text(language.viewText),
           ),
           Row(
             children: [
