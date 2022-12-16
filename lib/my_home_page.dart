@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:mobile_translation_app/models/field_position.dart';
-import 'package:mobile_translation_app/models/language.dart';
-import 'package:mobile_translation_app/views/text_field_item_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobile_translation_app/language.dart';
+import 'package:mobile_translation_app/text_field_item_view.dart';
 import 'package:translator/translator.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -30,19 +31,22 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
-  void _translate(String inputText, FieldPosition position) async {
-    if (inputText.isEmpty) {
+  void _translate({
+    required String sourceText, // TextFieldに入力されたテキスト
+    required String to, // 翻訳後の言語を指定（英語: en, 日本語: ja）
+    required bool isTopField, // 上側のTextFieldか下側のTextFieldか判別
+  }) async {
+    if (sourceText.isEmpty) {
       return;
     }
     final translator = GoogleTranslator();
-    final String to = position.isTop
-        ? _bottomLanguage.translatorLabel
-        : _topLanguage.translatorLabel;
+    // sourceTextを言語toに翻訳
     final translation = await translator.translate(
-      inputText,
+      sourceText,
       to: to,
     );
-    if (position.isTop) {
+    // 翻訳結果をUIに反映
+    if (isTopField) {
       _bottomController.text = translation.text;
     } else {
       _topController.text = translation.text;
@@ -57,16 +61,31 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _speak(FieldPosition position) async {
-    final language = position.isTop ? _topLanguage : _bottomLanguage;
-    final controller = position.isTop ? _topController : _bottomController;
+  void _copyClipBoard(TextEditingController controller) {
     if (controller.text.isEmpty) {
       return;
     }
+    // textをクリップボードにコピー
+    Clipboard.setData(
+      ClipboardData(
+        text: controller.text,
+      ),
+    );
+    // トーストを表示
+    Fluttertoast.showToast(msg: 'コピーしました');
+  }
+
+  void _speak({required String language, required String speakText}) async {
+    if (speakText.isEmpty) {
+      return;
+    }
     FlutterTts flutterTts = FlutterTts();
-    await flutterTts.setLanguage(language.speakingLabel);
-    await flutterTts.setSpeechRate(0.5);
-    await flutterTts.speak(controller.text);
+    // 読み上げる言語を設定（英語: en-US, 日本語: ja-JP）
+    await flutterTts.setLanguage(language);
+    // 読み上げる速度を設定（0.0〜1.0）
+    await flutterTts.setSpeechRate(1.5);
+    // speakTextを読み上げ
+    await flutterTts.speak(speakText);
   }
 
   @override
@@ -80,9 +99,17 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               const SizedBox(height: 16.0),
               TextFieldItemView(
-                translate: (value) => _translate(value, FieldPosition.top),
+                translate: (value) => _translate(
+                  sourceText: value,
+                  to: _bottomLanguage.translatorLabel,
+                  isTopField: true,
+                ),
                 onPressedSuffixButton: _resetTextField,
-                onPressedPlayButton: () => _speak(FieldPosition.top),
+                onPressedCopyButton: () => _copyClipBoard(_topController),
+                onPressedPlayButton: () => _speak(
+                  language: _topLanguage.speakingLabel,
+                  speakText: _topController.text,
+                ),
                 textEditingController: _topController,
                 language: _topLanguage,
               ),
@@ -105,9 +132,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               TextFieldItemView(
-                translate: (value) => _translate(value, FieldPosition.bottom),
+                translate: (value) => _translate(
+                  sourceText: value,
+                  to: _topLanguage.translatorLabel,
+                  isTopField: false,
+                ),
                 onPressedSuffixButton: _resetTextField,
-                onPressedPlayButton: () => _speak(FieldPosition.bottom),
+                onPressedCopyButton: () => _copyClipBoard(_bottomController),
+                onPressedPlayButton: () => _speak(
+                  language: _bottomLanguage.speakingLabel,
+                  speakText: _bottomController.text,
+                ),
                 textEditingController: _bottomController,
                 language: _bottomLanguage,
               ),

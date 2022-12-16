@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 enum Language {
   english,
@@ -6,7 +6,8 @@ enum Language {
 }
 
 extension LanguageExtension on Language {
-  String get text {
+  // 画面に表示するテキスト
+  String get viewText {
     switch (this) {
       case Language.english:
         return 'English';
@@ -15,6 +16,7 @@ extension LanguageExtension on Language {
     }
   }
 
+  // translatorで翻訳言語を指定するラベル
   String get translatorLabel {
     switch (this) {
       case Language.english:
@@ -24,6 +26,7 @@ extension LanguageExtension on Language {
     }
   }
 
+  // flutter_ttsで言語を指定するラベル
   String get speakingLabel {
     switch (this) {
       case Language.english:
@@ -33,6 +36,7 @@ extension LanguageExtension on Language {
     }
   }
 
+  // 言語によってキーボードの種類を変える
   TextInputType get textInputType {
     switch (this) {
       case Language.japanese:

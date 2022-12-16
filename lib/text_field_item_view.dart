@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mobile_translation_app/models/language.dart';
+import 'package:mobile_translation_app/language.dart';
 
 class TextFieldItemView extends StatelessWidget {
   const TextFieldItemView({
@@ -9,26 +7,16 @@ class TextFieldItemView extends StatelessWidget {
     required this.translate,
     required this.onPressedSuffixButton,
     required this.onPressedPlayButton,
+    required this.onPressedCopyButton,
     required this.textEditingController,
     required this.language,
   }) : super(key: key);
   final void Function(String)? translate;
   final void Function()? onPressedSuffixButton;
+  final void Function()? onPressedCopyButton;
   final void Function()? onPressedPlayButton;
   final TextEditingController textEditingController;
   final Language language;
-
-  void _copyClipBoard() {
-    if (textEditingController.text.isEmpty) {
-      return;
-    }
-    Clipboard.setData(
-      ClipboardData(
-        text: textEditingController.text,
-      ),
-    );
-    Fluttertoast.showToast(msg: 'コピーしました');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +32,7 @@ class TextFieldItemView extends StatelessWidget {
           Container(
             alignment: Alignment.centerLeft,
             height: 20.0,
-            child: Text(language.text),
+            child: Text(language.viewText),
           ),
           Row(
             children: [
@@ -66,7 +54,7 @@ class TextFieldItemView extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: _copyClipBoard,
+                onPressed: onPressedCopyButton,
                 icon: const Icon(
                   Icons.copy_outlined,
                 ),
